@@ -97,9 +97,9 @@ class _SplashState extends State<Splash> {
               ),
             ),
             Positioned(
-              left: width * 0.1946,
+              left: width * 0.19,
               top: height * 0.87,
-              right: width * 0.1946,
+              right: width * 0.19,
               child: const SizedBox(
                 child: Text(
                   "by continuing you agree to terms of services and  Privacy policy",

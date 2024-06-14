@@ -28,17 +28,27 @@ class _HomePageState extends State<HomePage> {
     DiscographyItem(
       name: "Alone",
       year: "2023",
-      imageUrl: "assets/images/Rectangle 38.png",
+      imageUrl: "assets/images/272cf15a08dcca3bd22e258e7635e9c2 1.png",
     ),
     DiscographyItem(
       name: "Dead inside",
       year: "2020",
-      imageUrl: "assets/images/Rectangle 32.png",
+      imageUrl: "assets/images/s4.jpg",
     ),
     DiscographyItem(
       name: "Alone",
       year: "2023",
-      imageUrl: "assets/images/Rectangle 38.png",
+      imageUrl: "assets/images/s5.jpg",
+    ),
+    DiscographyItem(
+      name: "Dead inside",
+      year: "2020",
+      imageUrl: "assets/images/s3.jpg",
+    ),
+    DiscographyItem(
+      name: "Alone",
+      year: "2023",
+      imageUrl: "assets/images/s6.png",
     ),
   ];
   List<PolularSinglesItem> popularSingleItem = const [
@@ -53,6 +63,12 @@ class _HomePageState extends State<HomePage> {
       year: "2023",
       imageUrl: "assets/images/Rectangle 38.png",
       description: "Berredchild",
+    ),
+    PolularSinglesItem(
+      name: "We Are Chaos",
+      year: "2020",
+      imageUrl: "assets/images/p1.jpeg",
+      description: "Easy Living",
     ),
     PolularSinglesItem(
       name: "Dead inside",
@@ -81,124 +97,128 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            CarouselSlider.builder(
-              itemCount: images.length,
-              itemBuilder: ((context, index, realIndex) {
-                final imageUrl = images[index];
-                return buildImage(imageUrl, index);
-              }),
-              options: CarouselOptions(
-                //animateToClosest: false,
-                viewportFraction: 1,
-                height: MediaQuery.of(context).size.height * 0.415,
-                //aspectRatio: 20 / 16,
-                autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 4),
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    activeIndex = index;
-                  });
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            buildPageIndicator(),
-            Column(
+    return Scaffold(
+        backgroundColor: const Color.fromRGBO(19, 19, 19, 1),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
-                  child: Row(
-                    children: [
-                      const Text(
-                        "Discograohy",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromRGBO(255, 46, 0, 1),
-                        ),
-                      ),
-                      const Spacer(),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "See all",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(248, 162, 69, 1)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                SizedBox(
-                  height: 180,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: discographyItem.length,
-                    itemBuilder: (context, index) {
-                      return buildDiscographyItemcard(discographyItem[index]);
+                CarouselSlider.builder(
+                  itemCount: images.length,
+                  itemBuilder: ((context, index, realIndex) {
+                    final imageUrl = images[index];
+                    return buildImage(imageUrl, index);
+                  }),
+                  options: CarouselOptions(
+                    //animateToClosest: false,
+                    viewportFraction: 1,
+                    height: MediaQuery.of(context).size.height * 0.415,
+                    //aspectRatio: 20 / 16,
+                    autoPlay: true,
+                    autoPlayInterval: const Duration(seconds: 4),
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        activeIndex = index;
+                      });
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                    top: 0,
-                  ),
-                  child: Row(
-                    children: [
-                      const Text(
-                        "Popular singles",
-                        style: TextStyle(
-                          fontSize: 14.4,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromRGBO(203, 200, 200, 1),
-                        ),
-                      ),
-                      const Spacer(),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "See all",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(248, 162, 69, 1)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 const SizedBox(
-                  height: 4,
+                  height: 15,
                 ),
+                buildPageIndicator(),
                 Column(
-                  children: List.generate(
-                    popularSingleItem.length,
-                    (index) {
-                      return buildPopularSingleItemcard(
-                        popularSingleItem[index],
-                      );
-                    },
-                  ),
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 3),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Discograohy",
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromRGBO(255, 46, 0, 1),
+                            ),
+                          ),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "See all",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color.fromRGBO(248, 162, 69, 1)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    SizedBox(
+                      height: 180,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: discographyItem.length,
+                        itemBuilder: (context, index) {
+                          return buildDiscographyItemcard(
+                              discographyItem[index]);
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 15,
+                        right: 15,
+                        top: 3,
+                      ),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Popular singles",
+                            style: TextStyle(
+                              fontSize: 14.4,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromRGBO(203, 200, 200, 1),
+                            ),
+                          ),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "See all",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color.fromRGBO(248, 162, 69, 1)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 0,
+                    ),
+                    Column(
+                      children: List.generate(
+                        popularSingleItem.length,
+                        (index) {
+                          return buildPopularSingleItemcard(
+                            popularSingleItem[index],
+                          );
+                        },
+                      ),
+                    )
+                  ],
                 )
               ],
-            )
-          ],
-        ),
-      ),
-    );
+            ),
+          ),
+        ));
   }
 
   Widget buildImage(String imageUrl, int index) {
@@ -224,7 +244,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Color.fromRGBO(24, 24, 24, 1),
+                  color: Color.fromRGBO(19, 19, 19, 1),
                   blurRadius: 200,
                   spreadRadius: 77,
                 )
@@ -288,13 +308,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildDiscographyItemcard(DiscographyItem discographyItem) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 140,
+            height: screenHeight * 0.1726,
+            width: screenWidth * 0.2895,
             child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
                 child:
@@ -332,7 +355,7 @@ class _HomePageState extends State<HomePage> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
-      padding: const EdgeInsets.only(right: 14, left: 14, top: 7, bottom: 7),
+      padding: const EdgeInsets.only(right: 14, left: 14, top: 2, bottom: 7),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

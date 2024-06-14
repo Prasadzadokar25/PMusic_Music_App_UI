@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pmusic/view/landing_screen.dart';
 
 import 'view/splash_screen.dart';
 

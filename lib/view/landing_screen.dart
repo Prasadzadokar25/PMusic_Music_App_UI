@@ -4,6 +4,7 @@ import 'package:pmusic/view/favorite_screen.dart';
 import 'package:pmusic/view/home_page.dart';
 import 'package:pmusic/view/profile_screen.dart';
 
+import 'adio_player.dart';
 import 'player_screen.dart';
 import 'search_screen.dart';
 
@@ -17,9 +18,9 @@ class _LandingPageState extends State<LandingPage> {
   int _selectedIndex = 2;
 
   List<StatefulWidget> pages = const [
-    FavoritePage(),
-    SearchPage(),
+    Player(),
     PlayerPage(),
+    HomePage(),
     CartPage(),
     ProfilePage(),
   ];
