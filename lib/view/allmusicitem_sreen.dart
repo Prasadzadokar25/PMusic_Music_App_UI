@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../model/item_lists.dart';
 import 'player_screen.dart';
 
 class AllMusicBuilder extends StatefulWidget {

@@ -3,9 +3,6 @@ import 'package:pmusic/view/cart_screen.dart';
 import 'package:pmusic/view/favorite_screen.dart';
 import 'package:pmusic/view/home_page.dart';
 import 'package:pmusic/view/profile_screen.dart';
-
-import 'adio_player.dart';
-import 'player_screen.dart';
 import 'search_screen.dart';
 
 class LandingPage extends StatefulWidget {

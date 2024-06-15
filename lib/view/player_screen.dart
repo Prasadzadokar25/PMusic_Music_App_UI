@@ -25,7 +25,7 @@ class _PlayerPageState extends State<MusicPlayerPage> {
   @override
   void initState() {
     super.initState();
-    _audioPlayer.play(AssetSource('music/Pirates Of The Caribbean.mp3'));
+    _playCurrentSong();
     _durationSubscription = _audioPlayer.onDurationChanged.listen((Duration d) {
       setState(() {
         _duration = d;
@@ -36,7 +36,7 @@ class _PlayerPageState extends State<MusicPlayerPage> {
       _position = p;
       setState(() {});
       if (_position == _duration) {
-        increaceCurrentSongIndex();
+        playNextSong();
       }
     });
 
@@ -50,19 +50,17 @@ class _PlayerPageState extends State<MusicPlayerPage> {
     });
   }
 
-  void _playPause() async {
+  void _playPause() {
     if (_playerState == PlayerState.playing) {
       _audioPlayer.pause();
+      setState(() {
+        _playerState = PlayerState.paused;
+      });
     } else {
-      // _audioPlayer.play(UrlSource(
-      //     'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'));
-      final result =
-          _audioPlayer.play(AssetSource('music/Pirates Of The Caribbean.mp3'));
-      if (true) {
-        setState(() {
-          _playerState = PlayerState.playing;
-        });
-      }
+      _audioPlayer.resume();
+      setState(() {
+        _playerState = PlayerState.playing;
+      });
     }
   }
 
@@ -71,22 +69,33 @@ class _PlayerPageState extends State<MusicPlayerPage> {
     _audioPlayer.seek(position);
   }
 
-  @override
-  void dispose() {
-    _durationSubscription.cancel();
-    _positionSubscription.cancel();
-    _playerStateSubscription.cancel();
-    _audioPlayer.dispose();
-    super.dispose();
+  void _playCurrentSong() async {
+    await _audioPlayer
+        .play(AssetSource(widget.songsList[widget.currentSongIndex].songUrl));
+    setState(() {
+      _playerState = PlayerState.playing;
+    });
   }
 
-  void increaceCurrentSongIndex() {
+  void playNextSong() async {
+    await _audioPlayer.stop();
     if (widget.currentSongIndex == widget.songsList.length - 1) {
       widget.currentSongIndex = 0;
     } else {
       widget.currentSongIndex++;
     }
-    setState(() {});
+    _playCurrentSong();
+  }
+
+  void playPreviousSong() async {
+    await _audioPlayer.stop();
+    if (widget.currentSongIndex > 0) {
+      widget.currentSongIndex--;
+    } else {
+      widget.currentSongIndex =
+          widget.songsList.length - 1; // Loop back to the last song
+    }
+    _playCurrentSong();
   }
 
   @override
@@ -234,14 +243,7 @@ class _PlayerPageState extends State<MusicPlayerPage> {
                       ),
                       IconButton(
                         highlightColor: const Color.fromARGB(30, 248, 248, 248),
-                        onPressed: () {
-                          if (widget.currentSongIndex == 0) {
-                            widget.currentSongIndex = 0;
-                          } else {
-                            widget.currentSongIndex--;
-                          }
-                          setState(() {});
-                        },
+                        onPressed: playPreviousSong,
                         icon: const Icon(
                           Icons.skip_previous_rounded,
                           size: 33,
@@ -263,7 +265,7 @@ class _PlayerPageState extends State<MusicPlayerPage> {
                       ),
                       IconButton(
                         highlightColor: const Color.fromARGB(30, 248, 248, 248),
-                        onPressed: increaceCurrentSongIndex,
+                        onPressed: playNextSong,
                         icon: const Icon(
                           Icons.skip_next_rounded,
                           size: 33,
@@ -288,5 +290,14 @@ class _PlayerPageState extends State<MusicPlayerPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _durationSubscription.cancel();
+    _positionSubscription.cancel();
+    _playerStateSubscription.cancel();
+    _audioPlayer.dispose();
+    super.dispose();
   }
 }
