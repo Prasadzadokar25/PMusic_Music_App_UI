@@ -1,10 +1,10 @@
-class PolularSinglesItem {
+class MusicModel {
   final String imageUrl;
   final String name;
   final String year;
   final String description;
 
-  const PolularSinglesItem({
+  const MusicModel({
     required this.name,
     required this.year,
     required this.imageUrl,

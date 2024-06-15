@@ -18,8 +18,8 @@ class _LandingPageState extends State<LandingPage> {
   int _selectedIndex = 2;
 
   List<StatefulWidget> pages = const [
-    Player(),
-    PlayerPage(),
+    FavoritePage(),
+    SearchPage(),
     HomePage(),
     CartPage(),
     ProfilePage(),

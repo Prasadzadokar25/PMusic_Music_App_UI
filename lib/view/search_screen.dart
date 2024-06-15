@@ -10,11 +10,13 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        "SearchPageSearchPage",
-        style: TextStyle(color: Colors.white),
-      ),
-    );
+    return const Scaffold(
+        backgroundColor: Color.fromRGBO(19, 19, 19, 1),
+        body: Center(
+          child: Text(
+            "SearchPageSearchPage",
+            style: TextStyle(color: Colors.white),
+          ),
+        ));
   }
 }

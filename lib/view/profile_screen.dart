@@ -10,11 +10,13 @@ class ProfilePage extends StatefulWidget {
 class _FavoriteState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        "profile",
-        style: TextStyle(color: Colors.white),
-      ),
-    );
+    return const Scaffold(
+        backgroundColor: Color.fromRGBO(19, 19, 19, 1),
+        body: Center(
+          child: Text(
+            "profile page",
+            style: TextStyle(color: Colors.white),
+          ),
+        ));
   }
 }

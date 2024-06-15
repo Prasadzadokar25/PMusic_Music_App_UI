@@ -10,11 +10,13 @@ class CartPage extends StatefulWidget {
 class _CartState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        "CartPage",
-        style: TextStyle(color: Colors.white),
-      ),
-    );
+    return const Scaffold(
+        backgroundColor: Color.fromRGBO(19, 19, 19, 1),
+        body: Center(
+          child: Text(
+            "cart page",
+            style: TextStyle(color: Colors.white),
+          ),
+        ));
   }
 }

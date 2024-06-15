@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:pmusic/model/discograph_item_model.dart';
-import 'package:pmusic/model/popular_singles_model.dart';
+import 'package:pmusic/model/musicdata_model.dart';
+import 'package:pmusic/view/allmusicitem_sreen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../model/item_lists.dart';
+import 'player_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,82 +21,15 @@ class _HomePageState extends State<HomePage> {
     'assets/images/111 1.png',
   ];
 
-  List<DiscographyItem> discographyItem = const [
-    DiscographyItem(
-      name: "Dead inside",
-      year: "2020",
-      imageUrl: "assets/images/Rectangle 32.png",
-    ),
-    DiscographyItem(
-      name: "Alone",
-      year: "2023",
-      imageUrl: "assets/images/272cf15a08dcca3bd22e258e7635e9c2 1.png",
-    ),
-    DiscographyItem(
-      name: "Dead inside",
-      year: "2020",
-      imageUrl: "assets/images/s4.jpg",
-    ),
-    DiscographyItem(
-      name: "Alone",
-      year: "2023",
-      imageUrl: "assets/images/s5.jpg",
-    ),
-    DiscographyItem(
-      name: "Dead inside",
-      year: "2020",
-      imageUrl: "assets/images/s3.jpg",
-    ),
-    DiscographyItem(
-      name: "Alone",
-      year: "2023",
-      imageUrl: "assets/images/s6.png",
-    ),
-  ];
-  List<PolularSinglesItem> popularSingleItem = const [
-    PolularSinglesItem(
-      name: "We Are Chaos",
-      year: "2020",
-      imageUrl: "assets/images/Rectangle 34.png",
-      description: "Easy Living",
-    ),
-    PolularSinglesItem(
-      name: "Smile",
-      year: "2023",
-      imageUrl: "assets/images/Rectangle 38.png",
-      description: "Berredchild",
-    ),
-    PolularSinglesItem(
-      name: "We Are Chaos",
-      year: "2020",
-      imageUrl: "assets/images/p1.jpeg",
-      description: "Easy Living",
-    ),
-    PolularSinglesItem(
-      name: "Dead inside",
-      year: "2020",
-      imageUrl: "assets/images/Rectangle 34.png",
-      description: "Easy Living",
-    ),
-    PolularSinglesItem(
-      name: "Alone",
-      year: "2023",
-      imageUrl: "assets/images/Rectangle 38.png",
-      description: "Berredchild",
-    ),
-    PolularSinglesItem(
-      name: "Dead inside",
-      year: "2020",
-      imageUrl: "assets/images/Rectangle 34.png",
-      description: "Easy Living",
-    ),
-    PolularSinglesItem(
-      name: "Alone",
-      year: "2023",
-      imageUrl: "assets/images/Rectangle 38.png",
-      description: "Berredchild",
-    ),
-  ];
+  void seeAllMusic(String appBarTitle, List musicList) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return AllMusicBuilder(
+        appBarTitle: appBarTitle,
+        musicList: musicList,
+      );
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,7 +79,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                           const Spacer(),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              seeAllMusic(
+                                "Discograohy",
+                                SongsList.discographyItem,
+                              );
+                            },
                             child: const Text(
                               "See all",
                               style: TextStyle(
@@ -160,13 +100,15 @@ class _HomePageState extends State<HomePage> {
                       height: 2,
                     ),
                     SizedBox(
-                      height: 180,
+                      height: MediaQuery.of(context).size.height * 0.22,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: discographyItem.length,
+                        itemCount: SongsList.discographyItem.length,
                         itemBuilder: (context, index) {
                           return buildDiscographyItemcard(
-                              discographyItem[index]);
+                            SongsList.discographyItem[index],
+                            index,
+                          );
                         },
                       ),
                     ),
@@ -188,7 +130,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                           const Spacer(),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              seeAllMusic("Popular singles",
+                                  SongsList.popularSingleItem);
+                            },
                             child: const Text(
                               "See all",
                               style: TextStyle(
@@ -205,10 +150,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Column(
                       children: List.generate(
-                        popularSingleItem.length,
+                        SongsList.popularSingleItem.length,
                         (index) {
                           return buildPopularSingleItemcard(
-                            popularSingleItem[index],
+                            SongsList.popularSingleItem[index],
                           );
                         },
                       ),
@@ -307,50 +252,64 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildDiscographyItemcard(DiscographyItem discographyItem) {
+  Widget buildDiscographyItemcard(MusicModel discographyItem, int index) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: screenHeight * 0.1726,
-            width: screenWidth * 0.2895,
-            child: ClipRRect(
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return MusicPlayerPage(
+                songsList: SongsList.discographyItem,
+                currentSongIndex: index,
+              );
+            },
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: screenHeight * 0.1736,
+              width: screenWidth * 0.2895,
+              child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
-                child:
-                    Image.asset(discographyItem.imageUrl, fit: BoxFit.cover)),
-          ),
-          const SizedBox(height: 5),
-          SizedBox(
-            child: Text(
-              maxLines: 1,
-              discographyItem.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-                color: Color.fromRGBO(203, 200, 200, 1),
+                child: Image.asset(discographyItem.imageUrl, fit: BoxFit.cover),
               ),
             ),
-          ),
-          SizedBox(
-            child: Text(
-              discographyItem.year,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 10,
-                color: Color.fromRGBO(132, 125, 125, 1),
+            const SizedBox(height: 5),
+            SizedBox(
+              child: Text(
+                maxLines: 1,
+                discographyItem.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  color: Color.fromRGBO(203, 200, 200, 1),
+                ),
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              child: Text(
+                discographyItem.year,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 10,
+                  color: Color.fromRGBO(132, 125, 125, 1),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildPopularSingleItemcard(PolularSinglesItem polularSinglesItem) {
+  Widget buildPopularSingleItemcard(MusicModel polularSinglesItem) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 

@@ -1,39 +1,57 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:pmusic/view/adio_player.dart';
 
-class PlayerPage extends StatefulWidget {
-  const PlayerPage({super.key});
+class MusicPlayerPage extends StatefulWidget {
+  List songsList;
+  int currentSongIndex;
+  MusicPlayerPage(
+      {required this.songsList, required this.currentSongIndex, super.key});
 
   @override
-  State<PlayerPage> createState() => _PlayerPageState();
+  State<MusicPlayerPage> createState() => _PlayerPageState();
 }
 
-class _PlayerPageState extends State<PlayerPage> {
+class _PlayerPageState extends State<MusicPlayerPage> {
   Duration _position = const Duration();
   Duration _duration = const Duration();
-  AudioPlayer _audioPlayer = AudioPlayer();
+  final AudioPlayer _audioPlayer = AudioPlayer();
   PlayerState _playerState = PlayerState.stopped;
+  bool isPlayerDisposed = false;
+
+  late StreamSubscription<Duration> _durationSubscription;
+  late StreamSubscription<Duration> _positionSubscription;
+  late StreamSubscription<PlayerState> _playerStateSubscription;
 
   @override
   void initState() {
     super.initState();
+    _audioPlayer.play(UrlSource(
+        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'));
 
-    _audioPlayer.onDurationChanged.listen((Duration d) {
+    _durationSubscription = _audioPlayer.onDurationChanged.listen((Duration d) {
       setState(() {
         _duration = d;
       });
     });
 
-    _audioPlayer.onPositionChanged.listen((Duration p) {
-      setState(() {
-        _position = p;
-      });
+    _positionSubscription = _audioPlayer.onPositionChanged.listen((Duration p) {
+      _position = p;
+      setState(() {});
+      if (_position == _duration) {
+        increaceCurrentSongIndex();
+      }
     });
 
-    _audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
-      setState(() {
-        _playerState = state;
-      });
+    _playerStateSubscription =
+        _audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
+      if (mounted) {
+        setState(() {
+          _playerState = state;
+        });
+      }
     });
   }
 
@@ -53,8 +71,20 @@ class _PlayerPageState extends State<PlayerPage> {
 
   @override
   void dispose() {
+    _durationSubscription.cancel();
+    _positionSubscription.cancel();
+    _playerStateSubscription.cancel();
     _audioPlayer.dispose();
     super.dispose();
+  }
+
+  void increaceCurrentSongIndex() {
+    if (widget.currentSongIndex == widget.songsList.length - 1) {
+      widget.currentSongIndex = 0;
+    } else {
+      widget.currentSongIndex++;
+    }
+    setState(() {});
   }
 
   @override
@@ -72,7 +102,7 @@ class _PlayerPageState extends State<PlayerPage> {
                   height: screenHeight * 0.633,
                   width: screenWidth,
                   child: Image.asset(
-                    "assets/images/272cf15a08dcca3bd22e258e7635e9c2 1.png",
+                    widget.songsList[widget.currentSongIndex].imageUrl,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -105,19 +135,19 @@ class _PlayerPageState extends State<PlayerPage> {
                       child: Container(
                         alignment: Alignment.center,
                         width: screenWidth * 0.6,
-                        child: const Column(
+                        child: Column(
                           children: [
                             Text(
-                              "Alone in the Abyss",
+                              widget.songsList[widget.currentSongIndex].name,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 24,
                                 color: Color.fromRGBO(230, 154, 21, 1),
                               ),
                             ),
-                            Text(
+                            const Text(
                               "Youlakou",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -148,25 +178,12 @@ class _PlayerPageState extends State<PlayerPage> {
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             SizedBox(
               width: screenWidth,
               child: Column(
                 children: [
-                  Slider(
-                    min: 0.0,
-                    max: _duration.inSeconds.toDouble(),
-                    thumbColor: const Color.fromRGBO(230, 154, 21, 1),
-                    inactiveColor: const Color.fromRGBO(217, 217, 217, 0.19),
-                    activeColor: const Color.fromRGBO(230, 154, 21, 1),
-                    value: _position.inSeconds.toDouble(),
-                    onChanged: (value) {
-                      setState(() {
-                        _seek(value);
-                      });
-                    },
-                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Row(
@@ -183,10 +200,24 @@ class _PlayerPageState extends State<PlayerPage> {
                       ],
                     ),
                   ),
+                  Slider(
+                    min: 0.0,
+                    max: _duration.inSeconds.toDouble(),
+                    thumbColor: const Color.fromRGBO(230, 154, 21, 1),
+                    inactiveColor: const Color.fromRGBO(217, 217, 217, 0.19),
+                    activeColor: const Color.fromRGBO(230, 154, 21, 1),
+                    value: _position.inSeconds.toDouble(),
+                    onChanged: (value) {
+                      setState(() {
+                        _seek(value);
+                      });
+                    },
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
+                        highlightColor: const Color.fromARGB(30, 248, 248, 248),
                         onPressed: () {},
                         icon: const Icon(
                           Icons.loop_rounded,
@@ -195,7 +226,15 @@ class _PlayerPageState extends State<PlayerPage> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        highlightColor: const Color.fromARGB(30, 248, 248, 248),
+                        onPressed: () {
+                          if (widget.currentSongIndex == 0) {
+                            widget.currentSongIndex = 0;
+                          } else {
+                            widget.currentSongIndex--;
+                          }
+                          setState(() {});
+                        },
                         icon: const Icon(
                           Icons.skip_previous_rounded,
                           size: 33,
@@ -203,6 +242,7 @@ class _PlayerPageState extends State<PlayerPage> {
                         ),
                       ),
                       IconButton(
+                        highlightColor: const Color.fromARGB(30, 248, 248, 248),
                         onPressed: _playPause,
                         icon: CircleAvatar(
                           radius: 25,
@@ -215,7 +255,8 @@ class _PlayerPageState extends State<PlayerPage> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        highlightColor: const Color.fromARGB(30, 248, 248, 248),
+                        onPressed: increaceCurrentSongIndex,
                         icon: const Icon(
                           Icons.skip_next_rounded,
                           size: 33,
@@ -223,9 +264,10 @@ class _PlayerPageState extends State<PlayerPage> {
                         ),
                       ),
                       IconButton(
+                        highlightColor: const Color.fromARGB(30, 248, 248, 248),
                         onPressed: () {},
                         icon: const Icon(
-                          Icons.music_note,
+                          Icons.volume_up_sharp,
                           size: 25,
                           color: Colors.white,
                         ),
