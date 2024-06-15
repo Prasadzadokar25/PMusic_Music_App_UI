@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:pmusic/view/adio_player.dart';
 
 class MusicPlayerPage extends StatefulWidget {
   List songsList;
@@ -19,7 +17,6 @@ class _PlayerPageState extends State<MusicPlayerPage> {
   Duration _duration = const Duration();
   final AudioPlayer _audioPlayer = AudioPlayer();
   PlayerState _playerState = PlayerState.stopped;
-  bool isPlayerDisposed = false;
 
   late StreamSubscription<Duration> _durationSubscription;
   late StreamSubscription<Duration> _positionSubscription;
@@ -28,9 +25,7 @@ class _PlayerPageState extends State<MusicPlayerPage> {
   @override
   void initState() {
     super.initState();
-    _audioPlayer.play(UrlSource(
-        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'));
-
+    _audioPlayer.play(AssetSource('music/Pirates Of The Caribbean.mp3'));
     _durationSubscription = _audioPlayer.onDurationChanged.listen((Duration d) {
       setState(() {
         _duration = d;
@@ -55,12 +50,19 @@ class _PlayerPageState extends State<MusicPlayerPage> {
     });
   }
 
-  void _playPause() {
+  void _playPause() async {
     if (_playerState == PlayerState.playing) {
       _audioPlayer.pause();
     } else {
-      _audioPlayer.play(UrlSource(
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'));
+      // _audioPlayer.play(UrlSource(
+      //     'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'));
+      final result =
+          _audioPlayer.play(AssetSource('music/Pirates Of The Caribbean.mp3'));
+      if (true) {
+        setState(() {
+          _playerState = PlayerState.playing;
+        });
+      }
     }
   }
 
@@ -161,14 +163,19 @@ class _PlayerPageState extends State<MusicPlayerPage> {
                         ),
                       ),
                     ),
-                    const Row(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Spacer(),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Icon(
-                            Icons.logout,
-                            color: Color.fromRGBO(230, 154, 21, 1),
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: const Icon(
+                              Icons.logout,
+                              color: Color.fromRGBO(230, 154, 21, 1),
+                            ),
                           ),
                         ),
                       ],

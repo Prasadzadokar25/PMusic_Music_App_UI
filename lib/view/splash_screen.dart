@@ -75,6 +75,7 @@ class _SplashState extends State<Splash> {
             Positioned(
               top: height * 0.79,
               child: GestureDetector(
+                onTap: () {},
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.black,

@@ -153,8 +153,7 @@ class _HomePageState extends State<HomePage> {
                         SongsList.popularSingleItem.length,
                         (index) {
                           return buildPopularSingleItemcard(
-                            SongsList.popularSingleItem[index],
-                          );
+                              SongsList.popularSingleItem[index], index);
                         },
                       ),
                     )
@@ -283,8 +282,10 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 5),
             SizedBox(
+              width: screenWidth * 0.2895,
               child: Text(
                 maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 discographyItem.name,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
@@ -309,94 +310,113 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildPopularSingleItemcard(MusicModel polularSinglesItem) {
+  Widget buildPopularSingleItemcard(MusicModel polularSinglesItem, int index) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return Padding(
-      padding: const EdgeInsets.only(right: 14, left: 14, top: 2, bottom: 7),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: screenHeight * 0.083,
-            width: screenWidth * 0.1630,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
-              ),
-              child: Image.asset(
-                polularSinglesItem.imageUrl,
-                fit: BoxFit.cover,
-              ),
-            ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return MusicPlayerPage(
+                songsList: SongsList.popularSingleItem,
+                currentSongIndex: index,
+              );
+            },
           ),
-          const SizedBox(width: 14),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 5,
-              ),
-              SizedBox(
-                width: screenWidth * 0.6,
-                child: Text(
-                  polularSinglesItem.name,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                    color: Color.fromRGBO(203, 200, 200, 1),
-                  ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 14, left: 14, top: 2, bottom: 7),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: screenHeight * 0.083,
+              width: screenWidth * 0.1630,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                child: Image.asset(
+                  polularSinglesItem.imageUrl,
+                  fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(height: 4),
-              Row(
+            ),
+            const SizedBox(width: 14),
+            Container(
+              color: const Color.fromRGBO(19, 19, 19, 1),
+              height: screenHeight * 0.083,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  const SizedBox(
+                    height: 5,
+                  ),
                   SizedBox(
+                    width: screenWidth * 0.6,
                     child: Text(
-                      polularSinglesItem.year,
+                      polularSinglesItem.name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 10,
-                        color: Color.fromRGBO(132, 125, 125, 1),
+                        fontSize: 12,
+                        color: Color.fromRGBO(203, 200, 200, 1),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  const CircleAvatar(
-                    radius: 2.2,
-                  ),
-                  const SizedBox(width: 5),
-                  SizedBox(
-                    child: Text(
-                      polularSinglesItem.description,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 10,
-                        color: Color.fromRGBO(132, 125, 125, 1),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      SizedBox(
+                        child: Text(
+                          polularSinglesItem.year,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10,
+                            color: Color.fromRGBO(132, 125, 125, 1),
+                          ),
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 8),
+                      const CircleAvatar(
+                        radius: 2.2,
+                      ),
+                      const SizedBox(width: 5),
+                      SizedBox(
+                        child: Text(
+                          polularSinglesItem.description,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10,
+                            color: Color.fromRGBO(132, 125, 125, 1),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
-          const Spacer(),
-          Container(
-            height: screenHeight * 0.083,
-            alignment: Alignment.center,
-            child: GestureDetector(
-              onTap: () {},
-              child: const Icon(
-                Icons.more_vert,
-                color: Colors.white,
-                size: 28,
-              ),
             ),
-          )
-        ],
+            const Spacer(),
+            Container(
+              height: screenHeight * 0.083,
+              alignment: Alignment.center,
+              child: GestureDetector(
+                onTap: () {},
+                child: const Icon(
+                  Icons.more_vert,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

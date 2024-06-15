@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../model/item_lists.dart';
+import 'player_screen.dart';
+
 class AllMusicBuilder extends StatefulWidget {
   final String appBarTitle;
   final List musicList;
@@ -49,52 +52,67 @@ class _AllMusicBuilderState extends State<AllMusicBuilder> {
           ),
           itemCount: widget.musicList.length,
           itemBuilder: (context, index) {
-            return buildDiscographyItemcard(widget.musicList[index]);
+            return buildMusicItemcard(widget.musicList, index);
           },
         ),
       ),
     );
   }
 
-  Widget buildDiscographyItemcard(discographyItem) {
+  Widget buildMusicItemcard(musicList, index) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: screenHeight * 0.1726,
-            width: screenWidth * 0.3195,
-            child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                child:
-                    Image.asset(discographyItem.imageUrl, fit: BoxFit.cover)),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return MusicPlayerPage(
+                songsList: widget.musicList,
+                currentSongIndex: index,
+              );
+            },
           ),
-          const SizedBox(height: 5),
-          SizedBox(
-            child: Text(
-              //maxLines: 1,
-              discographyItem.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-                color: Color.fromRGBO(203, 200, 200, 1),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: screenHeight * 0.1726,
+              width: screenWidth * 0.3195,
+              child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: Image.asset(musicList[index].imageUrl,
+                      fit: BoxFit.cover)),
+            ),
+            const SizedBox(height: 5),
+            SizedBox(
+              child: Text(
+                musicList[index].name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  color: Color.fromRGBO(203, 200, 200, 1),
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            child: Text(
-              discographyItem.year,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 10,
-                color: Color.fromRGBO(132, 125, 125, 1),
+            SizedBox(
+              child: Text(
+                musicList[index].year,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 10,
+                  color: Color.fromRGBO(132, 125, 125, 1),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
