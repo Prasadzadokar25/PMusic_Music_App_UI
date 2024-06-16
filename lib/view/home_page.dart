@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                       height: 2,
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.22,
+                      height: 190,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: SongsList.discographyItem.length,
@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: screenHeight * 0.1736,
+              height: 150.5,
               width: screenWidth * 0.2895,
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),

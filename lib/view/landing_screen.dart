@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pmusic/view/cart_screen.dart';
+import 'package:pmusic/view/playlist_screen.dart';
 import 'package:pmusic/view/favorite_screen.dart';
 import 'package:pmusic/view/home_page.dart';
 import 'package:pmusic/view/profile_screen.dart';
@@ -53,8 +53,8 @@ class _LandingPageState extends State<LandingPage> {
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.music_note),
-            label: "Cart",
+            icon: Icon(Icons.music_note_rounded),
+            label: "Playlist",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

@@ -31,12 +31,12 @@ class _FavoritePageState extends State<FavoritePage> {
       backgroundColor: const Color.fromRGBO(19, 19, 19, 1),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+          padding: const EdgeInsets.only(top: 0, left: 15, right: 15),
           child: Center(
             child: Column(
               children: [
                 SizedBox(
-                  height: screenHeight * 0.035,
+                  height: screenHeight * 0.05,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,7 +46,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(241, 241, 241, 1),
+                        color: Color.fromRGBO(255, 255, 255, 1),
                       ),
                     ),
                     Text(
@@ -54,7 +54,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(241, 241, 241, 1),
+                        color: Color.fromRGBO(255, 254, 254, 1),
                       ),
                     ),
                   ],
@@ -81,11 +81,13 @@ class _FavoritePageState extends State<FavoritePage> {
                   height: 20,
                 ),
                 Column(
-                  children:
-                      List.generate(SongsList.favarateSongs.length, (index) {
-                    return buildfavoriteSongItemcard(
-                        SongsList.favarateSongs[index], index);
-                  }),
+                  children: List.generate(
+                    SongsList.favarateSongs.length,
+                    (index) {
+                      return buildfavoriteSongItemcard(
+                          SongsList.favarateSongs[index], index);
+                    },
+                  ),
                 )
               ],
             ),
@@ -196,8 +198,8 @@ class _FavoritePageState extends State<FavoritePage> {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                        color: Color.fromRGBO(203, 200, 200, 1),
+                        fontSize: 13,
+                        color: Color.fromRGBO(224, 224, 224, 1),
                       ),
                     ),
                   ),
@@ -210,7 +212,7 @@ class _FavoritePageState extends State<FavoritePage> {
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
-                            color: Color.fromRGBO(132, 125, 125, 1),
+                            color: Color.fromRGBO(154, 151, 151, 1),
                           ),
                         ),
                       ),

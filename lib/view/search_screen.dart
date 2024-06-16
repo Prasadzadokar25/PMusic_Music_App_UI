@@ -124,7 +124,7 @@ class _MusicPlayerState extends State<SearchPage> {
           MaterialPageRoute(
             builder: (context) {
               return MusicPlayerPage(
-                songsList: SongsList.allSongs,
+                songsList: _filteredSongs,
                 currentSongIndex: index,
               );
             },
@@ -168,8 +168,8 @@ class _MusicPlayerState extends State<SearchPage> {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                        color: Color.fromRGBO(203, 200, 200, 1),
+                        fontSize: 13,
+                        color: Color.fromRGBO(224, 224, 224, 1),
                       ),
                     ),
                   ),
@@ -182,7 +182,7 @@ class _MusicPlayerState extends State<SearchPage> {
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
-                            color: Color.fromRGBO(132, 125, 125, 1),
+                            color: Color.fromRGBO(173, 169, 169, 1),
                           ),
                         ),
                       ),
@@ -207,18 +207,18 @@ class _MusicPlayerState extends State<SearchPage> {
               ),
             ),
             const Spacer(),
-            Container(
-              height: screenHeight * 0.083,
-              alignment: Alignment.center,
-              child: GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                  Icons.more_vert,
-                  color: Colors.white,
-                  size: 28,
-                ),
-              ),
-            )
+            // Container(
+            //   height: screenHeight * 0.083,
+            //   alignment: Alignment.center,
+            //   child: GestureDetector(
+            //     onTap: () {},
+            //     child: const Icon(
+            //       Icons.more_vert,
+            //       color: Colors.white,
+            //       size: 28,
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
