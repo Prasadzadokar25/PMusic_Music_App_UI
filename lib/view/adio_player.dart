@@ -1,14 +1,17 @@
+// Not prat of project
+
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class Player extends StatefulWidget {
   @override
   const Player({super.key});
-  _PlayerState createState() => _PlayerState();
+  @override
+  State createState() => _PlayerState();
 }
 
 class _PlayerState extends State<Player> {
-  AudioPlayer _audioPlayer = AudioPlayer();
+  final AudioPlayer _audioPlayer = AudioPlayer();
   Duration _duration = const Duration();
   Duration _position = const Duration();
   PlayerState _playerState = PlayerState.stopped;
