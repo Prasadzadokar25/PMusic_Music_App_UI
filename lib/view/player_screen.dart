@@ -22,6 +22,8 @@ class _PlayerPageState extends State<MusicPlayerPage> {
   late StreamSubscription<Duration> _positionSubscription;
   late StreamSubscription<PlayerState> _playerStateSubscription;
 
+  bool isFavorite = false;
+
   @override
   void initState() {
     super.initState();
@@ -172,12 +174,24 @@ class _PlayerPageState extends State<MusicPlayerPage> {
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: IconButton(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              isFavorite = !isFavorite;
+                              setState(() {});
+                            },
+                            icon: Icon(
+                              (isFavorite)
+                                  ? Icons.favorite_border
+                                  : Icons.favorite,
+                              color: Color.fromRGBO(230, 154, 21, 1),
+                            ),
+                          ),
+                          IconButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -186,8 +200,8 @@ class _PlayerPageState extends State<MusicPlayerPage> {
                               color: Color.fromRGBO(230, 154, 21, 1),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     )
                   ],
                 )

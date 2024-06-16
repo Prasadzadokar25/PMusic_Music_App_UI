@@ -41,7 +41,7 @@ class _LandingPageState extends State<LandingPage> {
         currentIndex: _selectedIndex,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border_outlined),
+            icon: Icon(Icons.favorite),
             label: "Favorite",
           ),
           BottomNavigationBarItem(
