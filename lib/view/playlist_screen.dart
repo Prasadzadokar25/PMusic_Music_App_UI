@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pmusic/model/playlist_list.dart';
 import 'package:pmusic/model/playlist_model.dart';
 
+import '../model/item_lists.dart';
 import 'player_screen.dart';
 
 class CartPage extends StatefulWidget {
@@ -16,9 +17,20 @@ class _CartState extends State<CartPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    PlayLists.playlistList[1].songList = SongsList.allSongs.where(
+      (element) {
+        return element.isFavorite == true;
+      },
+    ).toList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(19, 19, 19, 1),
       body: SingleChildScrollView(
@@ -394,23 +406,23 @@ class _CartState extends State<CartPage> {
                 ),
                 const Divider(color: Color.fromARGB(255, 82, 82, 82)),
                 ListTile(
-                  leading: const Icon(Icons.play_arrow, color: Colors.white),
-                  title: const Text('Play',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500)),
-                  onTap: () {
-                    Navigator.pop(context);
-                    // Handle play action
-
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return MusicPlayerPage(
-                        songsList: playlist.songList,
-                        currentSongIndex: 0,
-                      );
-                    }));
-                  },
-                ),
+                    leading: const Icon(Icons.play_arrow, color: Colors.white),
+                    title: const Text('Play',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w500)),
+                    onTap: () {
+                      Navigator.pop(context);
+                      // Handle play action
+                      if (playlist.songList.isNotEmpty) {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return MusicPlayerPage(
+                            songsList: playlist.songList,
+                            currentSongIndex: 0,
+                          );
+                        }));
+                      }
+                    }),
                 ListTile(
                   leading: const Icon(Icons.playlist_add, color: Colors.white),
                   title: const Text('Add to playlist',

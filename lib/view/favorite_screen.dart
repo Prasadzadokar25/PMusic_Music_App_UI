@@ -12,12 +12,22 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
+  List favarateSongs = [];
+  @override
+  void initState() {
+    super.initState();
+    favarateSongs = SongsList.allSongs.where(
+      (element) {
+        return element.isFavorite == true;
+      },
+    ).toList();
+  }
+
   void playFavoriteSongsList() {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return MusicPlayerPage(
-              songsList: SongsList.favarateSongs, currentSongIndex: 0);
+          return MusicPlayerPage(songsList: favarateSongs, currentSongIndex: 0);
         },
       ),
     );
@@ -50,7 +60,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       ),
                     ),
                     Text(
-                      "${SongsList.favarateSongs.length} songs",
+                      "${favarateSongs.length} songs",
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
@@ -82,10 +92,10 @@ class _FavoritePageState extends State<FavoritePage> {
                 ),
                 Column(
                   children: List.generate(
-                    SongsList.favarateSongs.length,
+                    favarateSongs.length,
                     (index) {
                       return buildfavoriteSongItemcard(
-                          SongsList.favarateSongs[index], index);
+                          favarateSongs[index], index);
                     },
                   ),
                 )
@@ -154,7 +164,7 @@ class _FavoritePageState extends State<FavoritePage> {
           MaterialPageRoute(
             builder: (context) {
               return MusicPlayerPage(
-                songsList: SongsList.favarateSongs,
+                songsList: favarateSongs,
                 currentSongIndex: index,
               );
             },
@@ -223,7 +233,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       const SizedBox(width: 5),
                       SizedBox(
                         child: Text(
-                          favoriteSongItem.description,
+                          favoriteSongItem.description!,
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:pmusic/model/item_lists.dart';
+import 'package:pmusic/model/musicdata_model.dart';
+import 'package:pmusic/model/playlist_list.dart';
 
 class MusicPlayerPage extends StatefulWidget {
   List songsList;
@@ -22,11 +25,13 @@ class _PlayerPageState extends State<MusicPlayerPage> {
   late StreamSubscription<Duration> _positionSubscription;
   late StreamSubscription<PlayerState> _playerStateSubscription;
 
+  bool imageUrlCorrect = true;
   bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
+    cheachImageUrl();
     _playCurrentSong();
     _durationSubscription = _audioPlayer.onDurationChanged.listen((Duration d) {
       setState(() {
@@ -37,7 +42,7 @@ class _PlayerPageState extends State<MusicPlayerPage> {
     _positionSubscription = _audioPlayer.onPositionChanged.listen((Duration p) {
       _position = p;
       setState(() {});
-      if (_position == _duration) {
+      if (_position >= _duration - const Duration(seconds: 1)) {
         playNextSong();
       }
     });
@@ -77,6 +82,7 @@ class _PlayerPageState extends State<MusicPlayerPage> {
     setState(() {
       _playerState = PlayerState.playing;
     });
+    addSongInRecentlyPlayedList(widget.songsList[widget.currentSongIndex]);
   }
 
   void playNextSong() async {
@@ -100,10 +106,23 @@ class _PlayerPageState extends State<MusicPlayerPage> {
     _playCurrentSong();
   }
 
+  void addSongInRecentlyPlayedList(MusicModel song) {
+    PlayLists.playlistList[2].songList.add(song);
+  }
+
+  void cheachImageUrl() {
+    try {
+      Image.asset(widget.songsList[widget.currentSongIndex].imageUrl);
+    } catch (e) {
+      imageUrlCorrect = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(19, 19, 19, 1),
       body: Center(
@@ -112,13 +131,14 @@ class _PlayerPageState extends State<MusicPlayerPage> {
             Stack(
               children: [
                 SizedBox(
-                  height: screenHeight * 0.633,
-                  width: screenWidth,
-                  child: Image.asset(
-                    widget.songsList[widget.currentSongIndex].imageUrl,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                    height: screenHeight * 0.633,
+                    width: screenWidth,
+                    child: (imageUrlCorrect)
+                        ? Image.asset(
+                            widget.songsList[widget.currentSongIndex].imageUrl,
+                            fit: BoxFit.cover,
+                          )
+                        : const Icon(Icons.music_note)),
                 Positioned(
                   top: screenHeight * 0.631,
                   left: 20,
@@ -180,19 +200,27 @@ class _PlayerPageState extends State<MusicPlayerPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
+                            highlightColor: Color.fromARGB(71, 178, 166, 110),
                             onPressed: () {
-                              isFavorite = !isFavorite;
+                              widget.songsList[widget.currentSongIndex]
+                                      .isFavorite =
+                                  !widget.songsList[widget.currentSongIndex]
+                                      .isFavorite;
                               setState(() {});
                             },
                             icon: Icon(
-                              (isFavorite)
+                              (!widget.songsList[widget.currentSongIndex]
+                                      .isFavorite)
                                   ? Icons.favorite_border
                                   : Icons.favorite,
-                              color: Color.fromRGBO(230, 154, 21, 1),
+                              color: const Color.fromRGBO(230, 154, 21, 1),
                             ),
                           ),
                           IconButton(
-                            onPressed: () {
+                            highlightColor: Color.fromARGB(71, 178, 166, 110),
+                            onPressed: () async {
+                              await _audioPlayer.stop();
+
                               Navigator.of(context).pop();
                             },
                             icon: const Icon(

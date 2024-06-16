@@ -389,7 +389,7 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(width: 5),
                       SizedBox(
                         child: Text(
-                          polularSinglesItem.description,
+                          polularSinglesItem.description!,
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,

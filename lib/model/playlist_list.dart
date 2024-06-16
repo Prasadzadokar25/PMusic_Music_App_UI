@@ -7,6 +7,6 @@ class PlayLists {
     PlayListModel(name: "Last added", songList: []),
     PlayListModel(name: "Recently played", songList: []),
     PlayListModel(name: "Most played", songList: []),
-    PlayListModel(name: "prasad", songList: SongsList.favarateSongs),
+    PlayListModel(name: "prasad", songList: SongsList.discographyItem),
   ];
 }

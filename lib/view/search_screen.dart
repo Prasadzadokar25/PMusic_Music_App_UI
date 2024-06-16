@@ -193,7 +193,7 @@ class _MusicPlayerState extends State<SearchPage> {
                       const SizedBox(width: 5),
                       SizedBox(
                         child: Text(
-                          favoriteSongItem.description,
+                          favoriteSongItem.description!,
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
