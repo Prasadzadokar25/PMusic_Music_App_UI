@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:pmusic/model/item_lists.dart';
 import 'package:pmusic/model/musicdata_model.dart';
 import 'package:pmusic/model/playlist_list.dart';
 
+// ignore: must_be_immutable
 class MusicPlayerPage extends StatefulWidget {
   List songsList;
   int currentSongIndex;
@@ -200,7 +200,8 @@ class _PlayerPageState extends State<MusicPlayerPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                            highlightColor: Color.fromARGB(71, 178, 166, 110),
+                            highlightColor:
+                                const Color.fromARGB(71, 178, 166, 110),
                             onPressed: () {
                               widget.songsList[widget.currentSongIndex]
                                       .isFavorite =
@@ -217,7 +218,8 @@ class _PlayerPageState extends State<MusicPlayerPage> {
                             ),
                           ),
                           IconButton(
-                            highlightColor: Color.fromARGB(71, 178, 166, 110),
+                            highlightColor:
+                                const Color.fromARGB(71, 178, 166, 110),
                             onPressed: () async {
                               await _audioPlayer.stop();
 

@@ -252,7 +252,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildDiscographyItemcard(MusicModel discographyItem, int index) {
-    double screenHeight = MediaQuery.of(context).size.height;
+    //double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
@@ -389,7 +389,7 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(width: 5),
                       SizedBox(
                         child: Text(
-                          polularSinglesItem.description!,
+                          polularSinglesItem.description,
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,

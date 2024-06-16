@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:pmusic/model/item_lists.dart';
 
 import '../model/musicdata_model.dart';
@@ -12,7 +11,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _MusicPlayerState extends State<SearchPage> {
-  List _allSongs = SongsList.allSongs;
+  final List _allSongs = SongsList.allSongs;
 
   List _filteredSongs = [];
   final TextEditingController _searchController = TextEditingController();
@@ -193,7 +192,7 @@ class _MusicPlayerState extends State<SearchPage> {
                       const SizedBox(width: 5),
                       SizedBox(
                         child: Text(
-                          favoriteSongItem.description!,
+                          favoriteSongItem.description,
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
