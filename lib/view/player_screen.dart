@@ -223,6 +223,7 @@ class _PlayerPageState extends State<MusicPlayerPage> {
                             onPressed: () async {
                               await _audioPlayer.stop();
 
+                              // ignore: use_build_context_synchronously
                               Navigator.of(context).pop();
                             },
                             icon: const Icon(

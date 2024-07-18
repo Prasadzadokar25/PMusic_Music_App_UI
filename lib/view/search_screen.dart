@@ -23,13 +23,6 @@ class _MusicPlayerState extends State<SearchPage> {
     _searchController.addListener(_onSearchChanged);
   }
 
-  @override
-  void dispose() {
-    _searchController.removeListener(_onSearchChanged);
-    _searchController.dispose();
-    super.dispose();
-  }
-
   _onSearchChanged() {
     setState(() {
       _filteredSongs = _allSongs
@@ -206,21 +199,16 @@ class _MusicPlayerState extends State<SearchPage> {
               ),
             ),
             const Spacer(),
-            // Container(
-            //   height: screenHeight * 0.083,
-            //   alignment: Alignment.center,
-            //   child: GestureDetector(
-            //     onTap: () {},
-            //     child: const Icon(
-            //       Icons.more_vert,
-            //       color: Colors.white,
-            //       size: 28,
-            //     ),
-            //   ),
-            // )
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
   }
 }
