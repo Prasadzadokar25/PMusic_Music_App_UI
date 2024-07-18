@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pmusic/model/playlist_list.dart';
 import 'package:pmusic/model/playlist_model.dart';
+import 'package:pmusic/view/playlist_view.dart';
 
 import '../model/item_lists.dart';
 import 'player_screen.dart';
@@ -19,7 +20,7 @@ class _CartState extends State<CartPage> {
   @override
   void initState() {
     super.initState();
-    PlayLists.playlistList[1].songList = SongsList.allSongs.where(
+    PlayLists.playlistList[0].songList = SongsList.allSongs.where(
       (element) {
         return element.isFavorite == true;
       },
@@ -95,16 +96,15 @@ class _CartState extends State<CartPage> {
 
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) {
-        //       return MusicPlayerPage(
-        //         playlist: SongsList.favarateSongs,
-        //         currentSongIndex: index,
-        //       );
-        //     },
-        //   ),
-        // );
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return DisplayPlayList(
+                playListModel: playlist,
+              );
+            },
+          ),
+        );
       },
       child: Padding(
         padding:
@@ -380,8 +380,8 @@ class _CartState extends State<CartPage> {
   void onCreateButtonPressed() {
     if (_formKey.currentState!.validate()) {
       String playlistName = _newPlayListController.text;
-      PlayLists.playlistList
-          .add(PlayListModel(name: playlistName, songList: []));
+      PlayLists.playlistList.add(PlayListModel(
+          name: playlistName, songList: [], id: PlayLists.playlistList.length));
       Navigator.of(context).pop();
       setState(() {}); // Close the bottom sheet after successful validation
     }
